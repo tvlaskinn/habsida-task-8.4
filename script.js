@@ -15,19 +15,28 @@ button.addEventListener('click', () => {
     }
 });
 
+let swiper;
+const mobileMediaQuery = window.matchMedia('(max-width: 767px)');
 
-if (window.innerWidth < 768) {
+function updateSwiper(e) {
+    if (e.matches) {
+        if (!swiper) {
+            swiper = new Swiper('.swiper', {
+                slidesPerView: 1,
+                spaceBetween: 16,
 
-    const swiper = new Swiper('.swiper', {
-
-        slidesPerView: 1,
-        spaceBetween: 16,
-
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-
-    });
-
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    }
+} else {
+    if (swiper) {
+        swiper.destroy(true, true);
+        swiper = undefined;
+    }
 }
+}
+updateSwiper(mobileMediaQuery);
+mobileMediaQuery.addEventListener('change', updateSwiper);
